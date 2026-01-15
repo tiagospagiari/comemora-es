@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrações do Time</title>
+    <style>
+        :root { 
+            /* PALETA MOSAIC */
+            --primary-color: #005c45;   /* Verde Escuro Institucional */
+            --bg-color: #f4f7f6;        /* Cinza esverdeado bem suave */
+            --card-bg: #ffffff;
+            
+            /* Destaques */
+            --accent-birthday: #78be20; /* Verde Vibrante/Lima (Vida/Crescimento) */
+            --accent-work: #d97706;     /* Dourado/Terra (Colheita/Tempo de Casa) */
+            
+            --text-color: #1f2937;
+            --text-secondary: #4b5563;
+        }
+
+        body { font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
+        
+        /* CABEÇALHO ESTILO MOSAIC */
+        header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            background: var(--primary-color); 
+            color: white;
+            padding: 25px 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0, 92, 69, 0.2); 
+        }
+        
+        h1 { margin: 0; font-size: 2.2rem; font-weight: 600; letter-spacing: -0.5px; color: white; }
+        
+        .controls { margin-top: 20px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .control-group { display: flex; flex-direction: column; align-items: flex-start; }
+        
+        label { font-size: 0.85rem; margin-bottom: 5px; color: #a7f3d0; font-weight: bold; text-transform: uppercase; }
+        
+        select { 
+            padding: 10px 15px; 
+            font-size: 1rem; 
+            border-radius: 6px; 
+            border: none; 
+            background-color: white;
+            color: var(--primary-color);
+            font-weight: bold;
+            min-width: 140px; 
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            border-left: 6px solid transparent; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+        }
+        
+        .card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.1); }
+        
+        /* Cores das Bordas */
+        .card.birthday { border-left-color: var(--accent-birthday); }
+        .card.work { border-left-color: var(--accent-work); }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .card-header span:first-child { font-size: 3rem; line-height: 1; }
+        
+        .date-badge { 
+            background: #eef2ef; 
+            color: var(--primary-color);
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            border: 1px solid #d1fae5;
+        }
+        
+        h2 { margin: 0; font-size: 1.25rem; color: #111827; font-weight: 700; }
+        
+        .details-text {
+            font-weight: bold;
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .manager { 
+            font-size: 0.8rem; 
+            margin-top: 15px; 
+            padding-top: 10px;
+            border-top: 1px solid #f3f4f6;
+            color: var(--text-secondary); 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎉 Celebrações do Time</h1>
+        <div class="controls">
+            <div class="control-group">
+                <label>Ano de Referência</label>
+                <select id="yearSelect" onchange="renderEvents()"></select>
+            </div>
+            <div class="control-group">
+                <label>Mês</label>
+                <select id="monthSelect" onchange="renderEvents()">
+                    <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+                    <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+                    <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+                    <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+                </select>
+            </div>
+        </div>
+    </header>
+    <div id="eventsContainer" class="grid-container"></div>
+    <script>
+        const events = [{"name": "Aldo Figueiro Junior", "day": 2, "month": 4, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Aldo Figueiro Junior", "day": 4, "month": 7, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Alessandro Vicente De Paula", "day": 28, "month": 12, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Alessandro Vicente De Paula", "day": 16, "month": 3, "type": "work", "base_years": 12, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Bruno Dalton Vitoriano Cruz", "day": 22, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Bruno Dalton Vitoriano Cruz", "day": 6, "month": 4, "type": "work", "base_years": 6, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Bruno Do Prado Ramos", "day": 5, "month": 4, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Bruno Do Prado Ramos", "day": 5, "month": 7, "type": "work", "base_years": 6, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Carlos Jose Da Cruz Moreira", "day": 3, "month": 5, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Carlos Jose Da Cruz Moreira", "day": 20, "month": 11, "type": "work", "base_years": 20, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Clayton Issao Koyama", "day": 7, "month": 6, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Clayton Issao Koyama", "day": 6, "month": 12, "type": "work", "base_years": 6, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Daniel Augusto Garcia De Oliveira", "day": 16, "month": 7, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Daniel Augusto Garcia De Oliveira", "day": 20, "month": 1, "type": "work", "base_years": 6, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Diogo Ribeiro Dos Santos", "day": 8, "month": 8, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Diogo Ribeiro Dos Santos", "day": 5, "month": 8, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Edmilson Pereira", "day": 20, "month": 5, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Edmilson Pereira", "day": 6, "month": 11, "type": "work", "base_years": 15, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Edson De Faria Tome", "day": 24, "month": 4, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Edson De Faria Tome", "day": 11, "month": 7, "type": "work", "base_years": 14, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Eliza Freire Santos", "day": 11, "month": 8, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Eliza Freire Santos", "day": 5, "month": 6, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Euripedes Mariano Dias", "day": 26, "month": 6, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Euripedes Mariano Dias", "day": 2, "month": 4, "type": "work", "base_years": 48, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Evando Ferreira Da Rosa", "day": 8, "month": 11, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Evando Ferreira Da Rosa", "day": 7, "month": 11, "type": "work", "base_years": 11, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Gabriel Campos", "day": 19, "month": 4, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Gabriel Campos", "day": 21, "month": 11, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Geovanna Costa Lopes Coelho", "day": 13, "month": 8, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Geovanna Costa Lopes Coelho", "day": 20, "month": 10, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Giovani Andrioli Gomes", "day": 9, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Giovani Andrioli Gomes", "day": 4, "month": 12, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Giovanna Mendes", "day": 7, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Giovanna Mendes", "day": 6, "month": 10, "type": "work", "base_years": 7, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Guilherme Coelho Junqueira", "day": 29, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Guilherme Coelho Junqueira", "day": 14, "month": 4, "type": "work", "base_years": 19, "details": "anos de casa", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Guilherme Mateus Ribeiro Silva", "day": 3, "month": 11, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Guilherme Mateus Ribeiro Silva", "day": 16, "month": 8, "type": "work", "base_years": 16, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Helder Santos De Souza Filho", "day": 2, "month": 3, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Helder Santos De Souza Filho", "day": 4, "month": 7, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Isaac Elias Neves Ferreira De Souza", "day": 6, "month": 5, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Isaac Elias Neves Ferreira De Souza", "day": 9, "month": 1, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Ivaldenir Ferreira Frutuoso", "day": 8, "month": 9, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Ivaldenir Ferreira Frutuoso", "day": 19, "month": 11, "type": "work", "base_years": 20, "details": "anos de casa", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Ivan Rodrigues De Rezende Junior", "day": 5, "month": 12, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Ivan Rodrigues De Rezende Junior", "day": 14, "month": 12, "type": "work", "base_years": 12, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Joao Geraldo De Souza", "day": 23, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Joao Geraldo De Souza", "day": 7, "month": 3, "type": "work", "base_years": 24, "details": "anos de casa", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Jose Alexandre Franco", "day": 14, "month": 8, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Jose Alexandre Franco", "day": 22, "month": 5, "type": "work", "base_years": 15, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Jose De Arimatheia Netto Filho", "day": 15, "month": 5, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Jose De Arimatheia Netto Filho", "day": 2, "month": 5, "type": "work", "base_years": 26, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Leandro Rodes Borges Mesquita", "day": 16, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Leandro Rodes Borges Mesquita", "day": 2, "month": 1, "type": "work", "base_years": 25, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Leticia Leite Garcia", "day": 30, "month": 3, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Leticia Leite Garcia", "day": 6, "month": 8, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Luana Maria Ferreira Martins", "day": 3, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Luana Maria Ferreira Martins", "day": 2, "month": 10, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Lucas De Oliveira", "day": 21, "month": 7, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Lucas De Oliveira", "day": 10, "month": 11, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Luirley Martins Da Silva", "day": 2, "month": 2, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Luirley Martins Da Silva", "day": 6, "month": 10, "type": "work", "base_years": 17, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Luis Fernando De Sousa Viriato", "day": 21, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Luis Fernando De Sousa Viriato", "day": 26, "month": 7, "type": "work", "base_years": 5, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Luismar Jose Ferreira", "day": 4, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Luismar Jose Ferreira", "day": 5, "month": 10, "type": "work", "base_years": 33, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Luiz Fernando Mesquita Correia", "day": 10, "month": 3, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Luiz Fernando Mesquita Correia", "day": 12, "month": 9, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Luiz Fernando Ribeiro Martins", "day": 21, "month": 7, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Luiz Fernando Ribeiro Martins", "day": 6, "month": 2, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Maicon Carlos Martins Silva", "day": 8, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Maicon Carlos Martins Silva", "day": 13, "month": 4, "type": "work", "base_years": 12, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Maycon Neves Marcelino", "day": 11, "month": 9, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Maycon Neves Marcelino", "day": 16, "month": 8, "type": "work", "base_years": 6, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Natalia Mariana Aparecida Da Conceicao Cardoso", "day": 23, "month": 2, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Natalia Mariana Aparecida Da Conceicao Cardoso", "day": 8, "month": 7, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Osmanil Ilzuk", "day": 25, "month": 12, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Osmanil Ilzuk", "day": 5, "month": 6, "type": "work", "base_years": 42, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Paulo Cesar Goncalves Ferreira", "day": 18, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Paulo Cesar Goncalves Ferreira", "day": 3, "month": 11, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Pedro Augusto Do Rosario", "day": 23, "month": 11, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Pedro Augusto Do Rosario", "day": 19, "month": 6, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Rafael Augusto Celsus Da Costa", "day": 14, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Rafael Augusto Celsus Da Costa", "day": 13, "month": 2, "type": "work", "base_years": 20, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Rafaela Campos Ferreira", "day": 18, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Rafaela Campos Ferreira", "day": 8, "month": 1, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Richard Rodrigues Santos", "day": 23, "month": 7, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Richard Rodrigues Santos", "day": 8, "month": 4, "type": "work", "base_years": 8, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Rodrigo Fulgencio", "day": 16, "month": 5, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Rodrigo Fulgencio", "day": 10, "month": 8, "type": "work", "base_years": 12, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Romilson Ribeiro", "day": 12, "month": 4, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Romilson Ribeiro", "day": 14, "month": 10, "type": "work", "base_years": 14, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Roque Geraldo De Lacerda", "day": 16, "month": 8, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Roque Geraldo De Lacerda", "day": 21, "month": 6, "type": "work", "base_years": 5, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Ruth Ketlhin Ribeiro Da Silva", "day": 20, "month": 9, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Ruth Ketlhin Ribeiro Da Silva", "day": 5, "month": 8, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Stefani Neves Magalhaes Ferreira", "day": 21, "month": 5, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Joao Geraldo De Souza"}, {"name": "Stefani Neves Magalhaes Ferreira", "day": 27, "month": 6, "type": "work", "base_years": 5, "details": "anos de casa", "manager": "Joao Geraldo De Souza"}, {"name": "Thiago Mendes Neumann", "day": 21, "month": 8, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Thiago Mendes Neumann", "day": 17, "month": 7, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Thiago Oliveira Prata", "day": 13, "month": 3, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Thiago Oliveira Prata", "day": 8, "month": 12, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Tiago Antonio Duca", "day": 27, "month": 6, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Tiago Antonio Duca", "day": 9, "month": 6, "type": "work", "base_years": 19, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Tiago Yoiti Spagiari", "day": 11, "month": 12, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Tiago Yoiti Spagiari", "day": 22, "month": 7, "type": "work", "base_years": 2, "details": "anos de casa", "manager": "Reginaldo Aparecido Mendes"}, {"name": "Vanessa Reinaldo Da Silva De Souza", "day": 28, "month": 1, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Vanessa Reinaldo Da Silva De Souza", "day": 12, "month": 9, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Vitor Gabriel Rodrigues Moura", "day": 28, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Vitor Gabriel Rodrigues Moura", "day": 18, "month": 3, "type": "work", "base_years": 3, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Wellington De Jesus Borges", "day": 31, "month": 10, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Guilherme Coelho Junqueira"}, {"name": "Wellington De Jesus Borges", "day": 18, "month": 9, "type": "work", "base_years": 14, "details": "anos de casa", "manager": "Guilherme Coelho Junqueira"}, {"name": "Wesley Miranda Sobral", "day": 22, "month": 9, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Wesley Miranda Sobral", "day": 27, "month": 2, "type": "work", "base_years": 4, "details": "anos de casa", "manager": "Ivaldenir Ferreira Frutuoso"}, {"name": "Reginaldo Aparecido Mendes", "day": 14, "month": 7, "type": "birthday", "base_years": 0, "details": "Anivers\u00e1rio", "manager": "Luciana Jardelino"}, {"name": "Reginaldo Aparecido Mendes", "day": 8, "month": 9, "type": "work", "base_years": 29, "details": "anos de casa", "manager": "Luciana Jardelino"}, {"name": "Luciana Jardelino", "day": 18, "month": 11, "type": "work", "base_years": 1, "details": "anos de casa", "manager": "Eduardo Moreira De Andrade Bucheb"}];
+        const FILE_YEAR = 2026;
+        const monthNames = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        
+        const yearSelect = document.getElementById('yearSelect');
+        const startYear = 2026;
+        for (let i = 0; i < 6; i++) {
+            let y = startYear + i;
+            let opt = document.createElement('option');
+            opt.value = y;
+            opt.innerText = y;
+            yearSelect.appendChild(opt);
+        }
+
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            const selectedMonth = parseInt(document.getElementById('monthSelect').value);
+            const selectedYear = parseInt(document.getElementById('yearSelect').value);
+            
+            const yearDiff = selectedYear - FILE_YEAR;
+
+            container.innerHTML = '';
+            const filtered = events.filter(e => e.month === selectedMonth).sort((a,b) => a.day - b.day);
+            
+            if (filtered.length === 0) { container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#6b7280;font-size:1.2rem;margin-top:40px;">Sem celebrações neste mês.</div>'; return; }
+            
+            filtered.forEach(e => {
+                const icon = e.type === 'birthday' ? '🎂' : '🏅';
+                const color = e.type === 'birthday' ? 'var(--accent-birthday)' : 'var(--accent-work)';
+                let detailsText = e.details;
+                
+                if (e.type === 'work') {
+                    const finalYears = e.base_years + yearDiff;
+                    detailsText = finalYears + ' anos de casa';
+                }
+
+                container.innerHTML += `
+                    <div class="card ${e.type}">
+                        <div class="card-header"><span>${icon}</span><span class="date-badge">${e.day} de ${monthNames[e.month]}</span></div>
+                        <h2>${e.name}</h2>
+                        <p class="details-text" style="color:${color};">${detailsText}</p>
+                        <p class="manager">Gestor: ${e.manager}</p>
+                    </div>`;
+            });
+        }
+        
+        const today = new Date();
+        document.getElementById('monthSelect').value = today.getMonth() + 1;
+        const currentYear = today.getFullYear();
+        if (currentYear >= startYear) { document.getElementById('yearSelect').value = currentYear; }
+        else { document.getElementById('yearSelect').value = startYear; }
+
+        renderEvents();
+    </script>
+</body>
+</html>
